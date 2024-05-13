@@ -2,6 +2,11 @@ import streamlit as st
 from vertexai.preview import rag
 import vertexai
 
+from vertexai.preview.generative_models import (
+    GenerativeModel,
+    Tool,
+)
+
 PROJECT_ID = st.secrets["PROJECT_ID"]
 LOCATION = "us-central1"
 rag_corpus_id = st.secrets["RAG_CORPUS_ID"]
@@ -10,10 +15,10 @@ model_name = "gemini-1.5-pro-preview-0514"
 vertexai.init(project=PROJECT_ID, location=LOCATION)
 
 # Initialize the RAG model
-rag_model = rag.GenerativeModel(
+rag_model = GenerativeModel(
     model_name=model_name,
     tools=[
-        rag.Tool.from_retrieval(
+        Tool.from_retrieval(
             retrieval=rag.Retrieval(
                 source=rag.VertexRagStore(
                     rag_corpora=[rag_corpus_id],
