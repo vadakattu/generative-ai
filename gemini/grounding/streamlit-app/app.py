@@ -1,5 +1,5 @@
 import streamlit as st
-from google.cloud import rag
+from vertexai.preview import rag
 import vertexai
 
 PROJECT_ID = st.secrets["PROJECT_ID"]
