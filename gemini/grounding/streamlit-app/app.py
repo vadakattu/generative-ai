@@ -65,6 +65,17 @@ if prompt := st.chat_input(
         message_placeholder = st.empty()
         response = chat.send_message(prompt)
         full_response = response.text
+
+        # Output the model response
         message_placeholder.markdown(full_response + "▌")
         message_placeholder.markdown(full_response)
+
+        # Output the retrieved contexts
+        st.markdown("**Retrieved Contexts:**")
+        for context in response.contexts.contexts:
+            st.markdown(f"**Source URI:** {context.source_uri}")
+            st.markdown(f"**Text:** {context.text}")
+            st.markdown(f"**Distance:** `{context.distance}`")
+            st.markdown("---")  # Add a separator between contexts
+
     st.session_state.messages.append({"role": "assistant", "content": full_response})
