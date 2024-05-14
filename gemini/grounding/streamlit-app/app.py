@@ -70,6 +70,16 @@ if prompt := st.chat_input(
         message_placeholder.markdown(full_response + "▌")
         message_placeholder.markdown(full_response)
 
+        response = rag.retrieval_query(
+            rag_resources=[
+                rag.RagResource(
+                    rag_corpus=rag_corpus_id,
+                )
+            ],
+            text=prompt,
+            similarity_top_k=3,
+        )
+
         # Output the retrieved contexts
         st.markdown("**Retrieved Contexts:**")
         for context in response.contexts.contexts:
