@@ -15,8 +15,8 @@ credentials = service_account.Credentials.from_service_account_info(
 
 PROJECT_ID = st.secrets["PROJECT_ID"]
 LOCATION = "us-central1"
+model_name = st.secrets["MODEL_NAME"]
 rag_corpus_id = st.secrets["RAG_CORPUS_ID"]
-model_name = "gemini-1.5-pro-preview-0514"
 
 vertexai.init(project=PROJECT_ID, location=LOCATION, credentials=credentials)
 
@@ -77,15 +77,27 @@ if prompt := st.chat_input(
                 )
             ],
             text=prompt,
-            similarity_top_k=3,
+            similarity_top_k=1,
         )
 
-        # Output the retrieved contexts
-        # st.markdown("**Retrieved Contexts:**")
-        # for context in response.contexts.contexts:
-        #     st.markdown(f"**Source URI:** {context.source_uri}")
-        #     st.markdown(f"**Text:** {context.text}")
-        #     st.markdown(f"**Distance:** `{context.distance}`")
-        #     st.markdown("---")  # Add a separator between contexts
+    backend_details = ""
 
-    st.session_state.messages.append({"role": "assistant", "content": full_response})
+    for context in response.contexts.contexts:
+        backend_details += f"""
+- **Source URI:** {context.source_uri}
+- **Distance:** `{context.distance}`
+- **Text:** {context.text}...
+
+---
+"""
+
+    with st.expander("**Retrieved Contexts:**"):
+        st.markdown(backend_details)
+
+    st.session_state.messages.append(
+        {
+            "role": "assistant",
+            "content": full_response,
+            "backend_details": backend_details,
+        }
+    )
