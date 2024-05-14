@@ -7,12 +7,18 @@ from vertexai.preview.generative_models import (
     Tool,
 )
 
+from google.oauth2 import service_account
+
+credentials = service_account.Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"]
+)
+
 PROJECT_ID = st.secrets["PROJECT_ID"]
 LOCATION = "us-central1"
 rag_corpus_id = st.secrets["RAG_CORPUS_ID"]
 model_name = "gemini-1.5-pro-preview-0514"
 
-vertexai.init(project=PROJECT_ID, location=LOCATION)
+vertexai.init(project=PROJECT_ID, location=LOCATION, credentials=credentials)
 
 # Initialize the RAG model
 rag_model = GenerativeModel(
