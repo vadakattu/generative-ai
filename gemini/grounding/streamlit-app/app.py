@@ -63,10 +63,8 @@ if prompt := st.chat_input(
 
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
-        full_response = ""
-        # include previous messages as context
-        for response in chat.send_message(prompt):
-            full_response += response
-            message_placeholder.markdown(full_response + "▌")
+        response = chat.send_message(prompt)
+        full_response = response.text
+        message_placeholder.markdown(full_response + "▌")
         message_placeholder.markdown(full_response)
     st.session_state.messages.append({"role": "assistant", "content": full_response})
