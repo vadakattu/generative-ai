@@ -2,15 +2,15 @@
 
 This demo will showcase how you can combine the data and documents you already have and the skills you already know with the power of AlloyDB AI, Vertex AI, Cloud Run, and Cloud Functions to build trustworthy Gen AI features into your existing applications.
 
-We’ll walk through an end-to-end “Knowledge Worker Assist” use case for a fictional Financial Services company called GenWealth. GenWealth, a subsidiary of Cymbal Investments, is an investment advisory firm that combines personalized service with cutting-edge technology to deliver tailored investment strategies to their clients that aim to generate market-beating results.
+We'll walk through an end-to-end "Knowledge Worker Assist" use case for a fictional Financial Services company called GenWealth. GenWealth, a subsidiary of Cymbal Investments, is an investment advisory firm that combines personalized service with cutting-edge technology to deliver tailored investment strategies to their clients that aim to generate market-beating results.
 
-In this scenario, we’ll be adding 3 new Gen AI features to GenWealth’s existing Investment Advisory software:
+In this scenario, we'll be adding 3 new Gen AI features to GenWealth's existing Investment Advisory software:
 
-1. First, we’ll improve the Investment Search experience for GenWealth’s Financial Advisors with semantic search powered by AlloyDB AI.
+1. First, we'll improve the Investment Search experience for GenWealth's Financial Advisors with semantic search powered by AlloyDB AI.
 
-1. Second, we’ll build a Customer Segmentation feature for GenWealth’s Marketing Analysts to identify prospects for new products and services.
+1. Second, we'll build a Customer Segmentation feature for GenWealth's Marketing Analysts to identify prospects for new products and services.
 
-1. Third, we’ll build a Gen AI chatbot that will supercharge productivity for GenWealth’s Financial Advisors.
+1. Third, we'll build a Gen AI chatbot that will supercharge productivity for GenWealth's Financial Advisors.
 
 ## Walkthrough
 
@@ -34,7 +34,7 @@ You can simply drop that file into the `$PROJECT_ID-docs` bucket in GCS to kick 
 
 1. Write the generated results to the `investments` table in AlloyDB.
 
-The data for the `RDYE` prospectus and related tables looks something like this (results may vary slightly due to generated content).
+The data for the `RYDE` prospectus and related tables looks something like this (results may vary slightly due to generated content).
 
 > NOTE: You can explore the application and document data yourself by logging into pgAdmin as described in the [Back End Demo Walkthrough](../walkthroughs/backend-demo-walkthrough.md) guide.
 
@@ -50,7 +50,7 @@ The data for the `RDYE` prospectus and related tables looks something like this 
 
    ![Investments](https://storage.googleapis.com/github-repo/generative-ai/sample-apps/genwealth/images/genwealth-ui/4-investment-table-summary.png "Investments")
 
-1. User profile data, including bios and embedings.
+1. User profile data, including bios and embeddings.
 
    ![User Profiles](https://storage.googleapis.com/github-repo/generative-ai/sample-apps/genwealth/images/genwealth-ui/5-user-profiles.png "User Profiles")
 
@@ -128,9 +128,9 @@ With that, you have created your second Gen AI feature, and you now have a tailo
 
 ### Grounded Gen AI Email Responder
 
-Imagine you're a Financial Advisor again, and you took last week off. When you get back in on Monday, your inbox is flooded with questions from clients. GenWealth prides itself on personalized service, so you can’t just reply with a canned response. Each of these emails is going to require you to research the client’s portfolio, financial goals, and preferences before responding.
+Imagine you're a Financial Advisor again, and you took last week off. When you get back in on Monday, your inbox is flooded with questions from clients. GenWealth prides itself on personalized service, so you can't just reply with a canned response. Each of these emails is going to require you to research the client's portfolio, financial goals, and preferences before responding.
 
-For example, let’s say that you got an email from Donya Bartle asking a question about investing an inheritance she just received.
+For example, let's say that you got an email from Donya Bartle asking a question about investing an inheritance she just received.
 
 Refresh your screen and search for Donya Bartle in the Prospects interface to view her profile.
 
@@ -148,7 +148,7 @@ Navigate to the **Ask** interface and click the **Advanced** toggle. Click the a
 
 Click **Ask** and review the result. It should look similar to the output below.
 
-> NOTE: Your results may vary slightly due to the dyanamic nature of Gen AI text completion models.
+> NOTE: Your results may vary slightly due to the dynamic nature of Gen AI text completion models.
 
 ![Donya Bartle](https://storage.googleapis.com/github-repo/generative-ai/sample-apps/genwealth/images/genwealth-ui/17-emailresult.png "Donya Bartle")
 
@@ -177,7 +177,7 @@ If you work in financial services, you know that chatbots aren't allowed to prov
 
 1. You will add response restrictions that instruct the model not to give financial advice.
 
-1. While the response restirctions are helpful, they still rely on the model to honor the request. This isn't deterministic enough for your regulators, so you will also append a deterministic legal disclaimer to the end of every response.
+1. While the response restrictions are helpful, they still rely on the model to honor the request. This isn't deterministic enough for your regulators, so you will also append a deterministic legal disclaimer to the end of every response.
 
 Update your inputs as shown in the screenshot below, and review the results.
 

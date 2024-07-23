@@ -135,7 +135,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# MacOS
+# macOS
 .DS_Store
 
 # PyCharm
@@ -154,7 +154,6 @@ tmp*
 **/node_modules
 npm-debug.log
 yarn-error.log
-
 
 # IDEs and editors
 .idea/
@@ -186,3 +185,4 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+*.vscode*

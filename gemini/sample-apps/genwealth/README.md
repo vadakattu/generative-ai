@@ -4,15 +4,15 @@
 
 <img align="right" style="padding-left: 10px;" src="https://storage.googleapis.com/github-repo/generative-ai/sample-apps/genwealth/images/genwealth-logo.png" width="35%" alt="GenWealth Logo"> This demo showcases how you can combine the data and documents you already have and the skills you already know with the power of [AlloyDB AI](https://cloud.google.com/alloydb/ai?hl=en), [Vertex AI](https://cloud.google.com/vertex-ai?hl=en), [Cloud Run](https://cloud.google.com/run?hl=en), and [Cloud Functions](https://cloud.google.com/functions?hl=en) to build trustworthy Gen AI features into your existing applications.
 
-You will implement an end-to-end “Knowledge Worker Assist” use case for a fictional Financial Services company called GenWealth. GenWealth is an investment advisory firm that combines personalized service with cutting-edge technology to deliver tailored investment strategies to their clients that aim to generate market-beating results.
+You will implement an end-to-end "Knowledge Worker Assist" use case for a fictional Financial Services company called GenWealth. GenWealth is an investment advisory firm that combines personalized service with cutting-edge technology to deliver tailored investment strategies to their clients that aim to generate market-beating results.
 
-You will add 3 new Gen AI features to GenWealth’s existing Investment Advisory software:
+You will add 3 new Gen AI features to GenWealth's existing Investment Advisory software:
 
-1. First, you will improve the investment search experience for GenWealth’s Financial Advisors using semantic search powered by AlloyDB AI.
-2. Second, you will build a Customer Segmentation feature for GenWealth’s Marketing Analysts to identify prospects for new products and services.
-3. Third, you will build a Gen AI chatbot that will supercharge productivity for GenWealth’s Financial Advisors.
+1. First, you will improve the investment search experience for GenWealth's Financial Advisors using semantic search powered by AlloyDB AI.
+2. Second, you will build a Customer Segmentation feature for GenWealth's Marketing Analysts to identify prospects for new products and services.
+3. Third, you will build a Gen AI chatbot that will supercharge productivity for GenWealth's Financial Advisors.
 
-This demo highlights AlloyDB AI’s integration with [Vertex AI LLMs](https://cloud.google.com/model-garden?hl=en) for both embeddings and text completion models. You will learn how to query AlloyDB with natural language using embeddings and vector similarity search, and you will build the backend for a RAG-powered Gen AI chatbot that is grounded in your application data.
+This demo highlights AlloyDB AI's integration with [Vertex AI LLMs](https://cloud.google.com/model-garden?hl=en) for both embeddings and text completion models. You will learn how to query AlloyDB with natural language using embeddings and vector similarity search, and you will build the backend for a RAG-powered Gen AI chatbot that is grounded in your application data.
 
 ## Tech Stack
 
@@ -33,7 +33,7 @@ The GenWealth demo application was built using:
 
 ## Deploying the GenWealth Demo Application
 
-1. Login to the [GCP Console](https://console.cloud.google.com/).
+1. Login to the [Google Cloud Console](https://console.cloud.google.com/).
 
 1. [Create a new project](https://developers.google.com/maps/documentation/places/web-service/cloud-setup) to host the demo and isolate it from other resources in your account.
 
@@ -106,7 +106,7 @@ The GenWealth demo application was built using:
 
 ### Database
 
-The application database (`ragdemos`) is hosted in GCP on AlloyDB, a high-performance, Enterprise-grade PostgreSQL database service.
+The application database (`ragdemos`) is hosted in Google Cloud on AlloyDB, a high-performance, Enterprise-grade PostgreSQL database service.
 
 > NOTE: For the purposes of the demo environment, the AlloyDB instance is provisioned as a Zonal instance to reduce cost. For production workloads, we strongly recommend enabling Regional availability.
 
@@ -118,7 +118,7 @@ AlloyDB [integrates directly](https://cloud.google.com/alloydb/docs/ai/configure
 -- Search for stocks that might perform well in a high inflation environment
 -- using semantic search with Gen AI embeddings
 SELECT ticker, etf, rating, analysis,
- analysis_embedding <=> embedding('textembedding-gecko@003', 'hedge against high inflation') AS distance
+ analysis_embedding <=> google_ml.embedding('textembedding-gecko@003', 'hedge against high inflation')::vector AS distance
 FROM investments
 ORDER BY distance
 LIMIT 5;
@@ -127,7 +127,7 @@ LIMIT 5;
 ```SQL
 -- Use hybrid search (semantic similarity + keywords) with Gen AI embeddings to find potential customers for a new Bitcoin ETF
 SELECT first_name, last_name, email, age, risk_profile, bio,
- bio_embedding <=> embedding('textembedding-gecko@003', 'young aggressive investor') AS distance
+ bio_embedding <=> google_ml.embedding('textembedding-gecko@003', 'young aggressive investor')::vector AS distance
 FROM user_profiles
 WHERE risk_profile = 'high'
  AND age BETWEEN 18 AND 50
@@ -173,14 +173,14 @@ The pipeline is triggered when a file is uploaded to the `$PROJECT_ID-docs` GCS 
 
 ##### RAG Pipeline Branch
 
-The RAG pipeline branch excutes the following steps:
+The RAG pipeline branch executes the following steps:
 
 1. The `process-pdf` Cloud Function extracts text from the pdf using Document AI (OCR), chunks the extracted text with LangChain, and writes the chunked text to the `langchain_vector_store` table in AlloyDB, leveraging [AlloyDB's LangChain vector store integration](https://python.langchain.com/docs/integrations/vectorstores/google_alloydb).
 1. The `analyze-prospectus` Cloud Function retrieves the document chunks from AlloyDB and iteratively builds a company overview, analysis, and buy/sell/hold rating using Vertex AI. Results are saved to the `investments` table in AlloyDB, where AlloyDB generates embeddings of the `overview` and `analysis` columns to enable vector similary search.
 
 ##### Vertex AI Agent Builder Pipeline Branch
 
-The Vertex AI S&C pipeline branch excutes the following steps:
+The Vertex AI S&C pipeline branch executes the following steps:
 
 1. The `write-metadata` function creates a jsonl file in the `$PROJECT_ID-docs-metadata` GCS bucket to enable faceted search.
 1. The `update-search-index` function kicks off re-indexing of the Vertex AI S&C data store to include the new file in its results.
@@ -227,7 +227,7 @@ The purpose of this repo is to help you provision an isolated demo environment t
 
 ## Clean Up
 
-Be sure to delete the resources you no longer need when you’re done with the demo. If you created a new project for the lab as recommended, you can delete the whole project using the command below in your Cloud Shell session (NOT the pgadmin VM).
+Be sure to delete the resources you no longer need when you're done with the demo. If you created a new project for the lab as recommended, you can delete the whole project using the command below in your Cloud Shell session (NOT the pgadmin VM).
 
 **DANGER: Be sure to set PROJECT_ID to the correct project, and run this command ONLY if you are SURE there is nothing in the project that you might still need. This command will permanently destroy everything in the project.**
 
